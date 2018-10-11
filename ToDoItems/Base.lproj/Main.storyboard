@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Todos View Controller-->
+        <!--Todo Items-->
         <scene sceneID="Rna-PC-US6">
             <objects>
                 <tableViewController id="IYi-Pf-9hb" customClass="TodosViewController" customModule="ToDoItems" customModuleProvider="target" sceneMemberID="viewController">
@@ -56,7 +56,7 @@
                             <outlet property="delegate" destination="IYi-Pf-9hb" id="SM3-Q5-s1e"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="lVc-kk-5cR">
+                    <navigationItem key="navigationItem" title="Todo Items" id="lVc-kk-5cR">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Uom-DW-OAA">
                             <connections>
                                 <segue destination="5Mg-rN-mwe" kind="show" id="NFA-zG-UYf"/>
@@ -68,19 +68,19 @@
             </objects>
             <point key="canvasLocation" x="1759.2" y="133.5832083958021"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Add Item Table View Controller-->
         <scene sceneID="R4a-jR-D9q">
             <objects>
-                <tableViewController id="5Mg-rN-mwe" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="lN2-31-4Kb">
+                <tableViewController id="5Mg-rN-mwe" customClass="AddItemTableViewController" customModule="ToDoItems" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="lN2-31-4Kb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
                             <tableViewSection id="Gyp-26-yCA">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="70" id="JRF-Gq-GJ8">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                        <rect key="frame" x="0.0" y="35" width="375" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JRF-Gq-GJ8" id="Yk1-VF-tSP">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="69.5"/>
@@ -90,7 +90,7 @@
                                                     <rect key="frame" x="16" y="23" width="343" height="24"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -108,6 +108,9 @@
                             <outlet property="delegate" destination="5Mg-rN-mwe" id="xWY-po-PIv"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="textField" destination="TvD-bS-I8K" id="v9v-Is-lFo"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WwN-I7-cEu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
