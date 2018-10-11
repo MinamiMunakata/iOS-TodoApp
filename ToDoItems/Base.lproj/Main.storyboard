@@ -91,6 +91,9 @@
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="5Mg-rN-mwe" id="dge-p2-kLU"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -114,7 +117,7 @@
                                 <action selector="cancel:" destination="5Mg-rN-mwe" id="lcK-eA-4iA"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="hP6-C5-Eag">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="done" id="hP6-C5-Eag">
                             <connections>
                                 <action selector="done:" destination="5Mg-rN-mwe" id="RXj-nN-aYZ"/>
                             </connections>
