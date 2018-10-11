@@ -9,10 +9,17 @@
 import UIKit
 
 class AddItemTableViewController: UITableViewController {
-
+    @IBOutlet weak var doneBarButton: UIBarButtonItem!
+    @IBOutlet weak var cancelBarButton: UIBarButtonItem!
+    @IBAction func done(_ sender: UIBarButtonItem) {
+    }
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+    }
+    
     @IBOutlet weak var textField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
+        textField.delegate = self
         navigationItem.largeTitleDisplayMode = .never
         
     }
@@ -21,4 +28,11 @@ class AddItemTableViewController: UITableViewController {
         textField.becomeFirstResponder()
     }
 
+}
+
+extension AddItemTableViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }

@@ -68,7 +68,7 @@
             </objects>
             <point key="canvasLocation" x="1759.2" y="133.5832083958021"/>
         </scene>
-        <!--Add Item Table View Controller-->
+        <!--New Todo Item-->
         <scene sceneID="R4a-jR-D9q">
             <objects>
                 <tableViewController id="5Mg-rN-mwe" customClass="AddItemTableViewController" customModule="ToDoItems" customModuleProvider="target" sceneMemberID="viewController">
@@ -108,7 +108,21 @@
                             <outlet property="delegate" destination="5Mg-rN-mwe" id="xWY-po-PIv"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="New Todo Item" id="e9i-LZ-RCd">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="vRv-EQ-Fj9">
+                            <connections>
+                                <action selector="cancel:" destination="5Mg-rN-mwe" id="lcK-eA-4iA"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="hP6-C5-Eag">
+                            <connections>
+                                <action selector="done:" destination="5Mg-rN-mwe" id="RXj-nN-aYZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="cancelBarButton" destination="vRv-EQ-Fj9" id="VX9-Wj-eLP"/>
+                        <outlet property="doneBarButton" destination="hP6-C5-Eag" id="bBD-Lf-9GU"/>
                         <outlet property="textField" destination="TvD-bS-I8K" id="v9v-Is-lFo"/>
                     </connections>
                 </tableViewController>
