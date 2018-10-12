@@ -62,11 +62,11 @@
 			children = (
 				D8C1972C216FAA39000A346A /* AppDelegate.swift */,
 				D8C1972E216FAA39000A346A /* TodosViewController.swift */,
+				D8C1973E216FB522000A346A /* AddItemTableViewController.swift */,
 				D8C19730216FAA39000A346A /* Main.storyboard */,
 				D8C19733216FAA3B000A346A /* Assets.xcassets */,
 				D8C19735216FAA3B000A346A /* LaunchScreen.storyboard */,
 				D8C19738216FAA3B000A346A /* Info.plist */,
-				D8C1973E216FB522000A346A /* AddItemTableViewController.swift */,
 				D8C19740216FD52C000A346A /* TodoItem.swift */,
 				D8C19742216FD590000A346A /* TodoList.swift */,
 			);

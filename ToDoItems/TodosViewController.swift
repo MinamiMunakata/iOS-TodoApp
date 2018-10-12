@@ -16,6 +16,15 @@ class TodosViewController: UITableViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = true
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddItemSegue" {
+            if let addItemVC = segue.destination as? AddItemTableViewController  {
+                addItemVC.delegate = self
+            }
+        }
+    }
+    
     // tableViewDataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // num of rows
@@ -58,4 +67,29 @@ class TodosViewController: UITableViewController {
         }
     }
 
+}
+
+extension TodosViewController: AddItemViewControllerDelegate {
+    func addItemDidCancel() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func addItemDidFinishAdding(_ item: TodoItem) {
+        // pop
+        navigationController?.popViewController(animated: true)
+        
+        // update model
+        todoList.todos.append(item)
+        
+        // update view
+        let index = todoList.todos.count - 1
+        let indexPath = IndexPath(row: index, section: 0)
+        tableView.insertRows(at: [indexPath], with: .automatic)
+    }
+    
+    func addItemDidFinishEditing(_ item: TodoItem) {
+        //
+    }
+    
+    
 }

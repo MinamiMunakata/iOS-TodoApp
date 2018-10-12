@@ -8,14 +8,29 @@
 
 import UIKit
 
+protocol AddItemViewControllerDelegate: class { // = has to be a referance type (not struct)
+    func addItemDidCancel()
+    
+    func addItemDidFinishAdding(_ item: TodoItem)
+    
+    func addItemDidFinishEditing(_ item: TodoItem)
+}
+
 class AddItemTableViewController: UITableViewController {
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     @IBOutlet weak var cancelBarButton: UIBarButtonItem!
+    weak var delegate: AddItemViewControllerDelegate? // always weak
     @IBAction func done(_ sender: UIBarButtonItem) {
-        
+        if let text = textField.text {
+            let newItem = TodoItem()
+            newItem.text = text
+            newItem.checked = false
+            delegate?.addItemDidFinishAdding(newItem)
+        }
     }
     @IBAction func cancel(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
+        delegate?.addItemDidCancel()
+//        navigationController?.popViewController(animated: true)
     }
     
     @IBOutlet weak var textField: UITextField!

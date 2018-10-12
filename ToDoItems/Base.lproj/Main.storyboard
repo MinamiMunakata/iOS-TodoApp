@@ -59,7 +59,7 @@
                     <navigationItem key="navigationItem" title="Todo Items" id="lVc-kk-5cR">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Uom-DW-OAA">
                             <connections>
-                                <segue destination="5Mg-rN-mwe" kind="show" id="NFA-zG-UYf"/>
+                                <segue destination="5Mg-rN-mwe" kind="show" identifier="AddItemSegue" id="NFA-zG-UYf"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
