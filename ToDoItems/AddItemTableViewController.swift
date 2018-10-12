@@ -20,26 +20,39 @@ class AddItemTableViewController: UITableViewController {
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     @IBOutlet weak var cancelBarButton: UIBarButtonItem!
     weak var delegate: AddItemViewControllerDelegate? // always weak
-    @IBAction func done(_ sender: UIBarButtonItem) {
-        if let text = textField.text {
-            let newItem = TodoItem()
-            newItem.text = text
-            newItem.checked = false
-            delegate?.addItemDidFinishAdding(newItem)
-        }
-    }
+    weak var itemToEdit: TodoItem?
+
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         delegate?.addItemDidCancel()
 //        navigationController?.popViewController(animated: true)
     }
     
     @IBOutlet weak var textField: UITextField!
+    
+    @IBAction func done(_ sender: UIBarButtonItem) {
+        if let item = itemToEdit, let text = textField.text {
+            item.text = text
+            delegate?.addItemDidFinishEditing(item)
+        } else {
+            if let text = textField.text {
+                let newItem = TodoItem()
+                newItem.text = text
+                newItem.checked = false
+                delegate?.addItemDidFinishAdding(newItem)
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // you can do them below in storyboard
 //        textField.delegate = self
 //        doneBarButton.isEnabled = false
         navigationItem.largeTitleDisplayMode = .never
+        if let item = itemToEdit {
+            title = "Edit Todo Item"
+            textField.text = item.text
+            doneBarButton.isEnabled = true
+        }
         
     }
     

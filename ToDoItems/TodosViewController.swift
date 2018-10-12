@@ -22,6 +22,14 @@ class TodosViewController: UITableViewController {
             if let addItemVC = segue.destination as? AddItemTableViewController  {
                 addItemVC.delegate = self
             }
+        } else if segue.identifier == "EditItemSegue" {
+            if let addItemVC = segue.destination as? AddItemTableViewController {
+                if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
+                    let item = todoList.todos[indexPath.row]
+                    addItemVC.itemToEdit = item
+                    addItemVC.delegate = self
+                }
+            }
         }
     }
     
@@ -88,7 +96,18 @@ extension TodosViewController: AddItemViewControllerDelegate {
     }
     
     func addItemDidFinishEditing(_ item: TodoItem) {
-        //
+        // what is the index of "item" from todos array.
+        // update model
+        if let index = todoList.todos.index(of: item) {
+            todoList.todos[index] = item
+            // update tableView
+            let indexPath = IndexPath(row: index, section: 0)
+            if let cell = tableView.cellForRow(at: indexPath),
+                let label = cell.viewWithTag(10) as? UILabel {
+                label.text = item.text
+            }
+        }
+        navigationController?.popViewController(animated: true)
     }
     
     
