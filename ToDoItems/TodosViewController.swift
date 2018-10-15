@@ -43,6 +43,13 @@ class TodosViewController: UITableViewController {
         tableView.setEditing(editing, animated: animated)
     }
     
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        // change model
+//        todoList.move(item: todoList.todos[sourceIndexPath.row], to: destinationIndexPath.row)
+        // update tableview
+        tableView.reloadData() // calls datasource methods again.
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddItemSegue" {
             if let addItemVC = segue.destination as? AddItemTableViewController  {
@@ -50,8 +57,10 @@ class TodosViewController: UITableViewController {
             }
         } else if segue.identifier == "EditItemSegue" {
             if let addItemVC = segue.destination as? AddItemTableViewController {
-                if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
-                    let item = todoList.todos[indexPath.row]
+                if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell),
+                    let priority = priorityForSectionIndex(indexPath.section){
+//                    let item = todoList.todos[indexPath.row]
+                    let item = todoList.todoList(for: priority)[indexPath.row]
                     addItemVC.itemToEdit = item
                     addItemVC.delegate = self
                 }
@@ -59,10 +68,21 @@ class TodosViewController: UITableViewController {
         }
     }
     
-    // tableViewDataSource
+    private func priorityForSectionIndex(_ index: Int) -> TodoList.Priority? {
+        return TodoList.Priority(rawValue: index)
+    }
+    
+    // MARK: tableViewDataSource
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return TodoList.Priority.allCases.count
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // num of rows
-        return todoList.todos.count
+        if let priority = priorityForSectionIndex(section) {
+            return todoList.todoList(for: priority).count
+        }
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -70,15 +90,32 @@ class TodosViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItem", for: indexPath)
         // checkmark, todoLabel
-        let item = todoList.todos[indexPath.row]
-        configureCheckmark(for: cell, with: item)
-        configureTodoLabel(for: cell, with: item)
+        if let priority = priorityForSectionIndex(indexPath.section) {
+            let  items = todoList.todoList(for: priority)
+            let item = items[indexPath.row]
+            configureCheckmark(for: cell, with: item)
+            configureTodoLabel(for: cell, with: item)
+        }
         return cell
         
         
     }
 
     // MARK: TableViewDelegate
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        var title: String? = nil
+        if let priority = priorityForSectionIndex(section) {
+            switch priority {
+            case .high:
+                title = "HIGH PRIORITY"
+            case .medium:
+                title = "MEDIUM PRIORITY"
+            case .low:
+                title = "LOW PRIORITY"
+            }
+        }
+        return title
+    }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.isEditing {
             return;
@@ -86,16 +123,16 @@ class TodosViewController: UITableViewController {
         // get the cell selected
         if let cell = tableView.cellForRow(at: indexPath) {
             // change the checked property of the TodoItem from model
-            let item = todoList.todos[indexPath.row]
-            item.toggleCheckmark()
-            configureCheckmark(for: cell, with: item)
-            // uncheck/check the checkmark from the cell
-            
-            
+            if let priority = priorityForSectionIndex(indexPath.section) {
+                let  items = todoList.todoList(for: priority)
+                let item = items[indexPath.row]
+                item.toggleCheckmark()
+                // uncheck/check the checkmark from the cell
+                configureCheckmark(for: cell, with: item)
+                // deselect the row (no-highlighting)
+                tableView.deselectRow(at: indexPath, animated: true)
+            }
         }
-        
-        // deselect the row (no-highlighting)
-        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func configureCheckmark(for cell: UITableViewCell, with item: TodoItem) {
@@ -112,7 +149,10 @@ class TodosViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         // remove from the model
-        todoList.todos.remove(at: indexPath.row)
+        if let priority = priorityForSectionIndex(indexPath.section) {
+            let item = todoList.todoList(for: priority)[indexPath.row]
+            todoList.remove(item: item, from: priority, at: indexPath.row)
+        }
         // update the tableview
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
@@ -129,31 +169,30 @@ extension TodosViewController: AddItemViewControllerDelegate {
         navigationController?.popViewController(animated: true)
         
         // update model
-        todoList.todos.append(item)
+        todoList.addTodo(item: item, for: .medium)
         
         // update view
-        let index = todoList.todos.count - 1
-        let indexPath = IndexPath(row: index, section: 0)
+        let index = todoList.todoList(for: .medium).count - 1
+        let indexPath = IndexPath(row: index, section: TodoList.Priority.medium.rawValue)
         tableView.insertRows(at: [indexPath], with: .automatic)
     }
     
     func addItemDidFinishEditing(_ item: TodoItem) {
         // what is the index of "item" from todos array.
         // update model
-        if let index = todoList.todos.index(of: item) {
-            todoList.todos[index] = item
-            // update tableView
-            let indexPath = IndexPath(row: index, section: 0)
-            if let cell = tableView.cellForRow(at: indexPath) as? TodoTableViewCell {
-                configureTodoLabel(for: cell, with: item)
+        for priority in TodoList.Priority.allCases {
+            var priorityArray = todoList.todoList(for: priority)
+            if let index = priorityArray.index(of: item) {
+                priorityArray[index] = item
+                let indexPath = IndexPath(row: index, section: priority.rawValue)
+                if let cell = tableView.cellForRow(at: indexPath) {
+                    configureTodoLabel(for: cell, with: item)
+                }
             }
-//            if let cell = tableView.cellForRow(at: indexPath),
-//                let label = cell.viewWithTag(10) as? UILabel {
-//                label.text = item.text
-//            }
         }
         navigationController?.popViewController(animated: true)
     }
+    
     
     
 }
