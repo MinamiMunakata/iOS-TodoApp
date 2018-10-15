@@ -30,4 +30,12 @@ class TodoList {
         todos.append(item4)
         todos.append(item5)
     }
+    
+    func remove(items: [TodoItem]) {
+        for item in items {
+            if let index = todos.index(of: item) {
+                todos.remove(at: index)
+            }
+        }
+    }
 }

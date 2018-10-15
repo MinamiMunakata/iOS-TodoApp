@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="TodoItem" id="oGy-vB-E8F">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="TodoItem" id="oGy-vB-E8F" customClass="TodoTableViewCell" customModule="ToDoItems" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oGy-vB-E8F" id="vbc-32-0WO">
@@ -50,6 +50,8 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="checkmark" destination="Itj-0y-x2l" id="wAo-d1-vmA"/>
+                                    <outlet property="todoLabel" destination="L66-1t-1lT" id="a1O-ZB-eyy"/>
                                     <segue destination="5Mg-rN-mwe" kind="show" identifier="EditItemSegue" trigger="accessoryAction" id="ZjZ-fj-3mT"/>
                                 </connections>
                             </tableViewCell>
@@ -60,11 +62,19 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Todo Items" id="lVc-kk-5cR">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Uom-DW-OAA">
-                            <connections>
-                                <segue destination="5Mg-rN-mwe" kind="show" identifier="AddItemSegue" id="NFA-zG-UYf"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="Uom-DW-OAA">
+                                <connections>
+                                    <segue destination="5Mg-rN-mwe" kind="show" identifier="AddItemSegue" id="NFA-zG-UYf"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Delete" id="5xm-C9-4gd">
+                                <color key="tintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="deleteTodoItems:" destination="IYi-Pf-9hb" id="dcl-jO-H4T"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TPX-cv-r3d" userLabel="First Responder" sceneMemberID="firstResponder"/>
