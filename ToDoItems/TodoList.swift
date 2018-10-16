@@ -49,14 +49,26 @@ class TodoList {
         }
     }
     
-    func addTodo(item: TodoItem, for priority: Priority) {
+    func addTodo(item: TodoItem, for priority: Priority, at index: Int = -1) { // default = -1
         switch priority {
         case .high:
-            highPriorityTodos.append(item)
+            if index < 0 {
+                highPriorityTodos.insert(item, at: index)
+            } else {
+                highPriorityTodos.append(item)
+            }
         case .medium:
-            mediumPriorityTodos.append(item)
+            if index < 0 {
+                mediumPriorityTodos.insert(item, at: index)
+            } else {
+                mediumPriorityTodos.append(item)
+            }
         case .low:
-            lowPriorityTodos.append(item)
+            if index < 0 {
+                lowPriorityTodos.insert(item, at: index)
+            } else {
+                lowPriorityTodos.append(item)
+            }
         }
     }
     
@@ -71,6 +83,7 @@ class TodoList {
         }
     }
     
+    // TODO: delete items
     func remove(items: [TodoItem]) {
         for item in items {
             if let index = todos.index(of: item) {
@@ -79,10 +92,8 @@ class TodoList {
         }
     }
     
-    func move(item: TodoItem, to index: Int) {
-//        if let currentIndex = todos.index(of: item) {
-//            todos.remove(at: currentIndex)
-//            todos.insert(item, at: index)
-//        }
+    func move(item: TodoItem, from srcPriority: Priority, at srcPath: IndexPath, to destPriority: Priority, at destPath: IndexPath) {
+        remove(item: item, from: srcPriority, at: srcPath.row)
+        addTodo(item: item, for: destPriority, at: destPath.row)
     }
 }
