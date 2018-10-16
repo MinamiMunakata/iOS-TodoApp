@@ -53,21 +53,21 @@ class TodoList {
         switch priority {
         case .high:
             if index < 0 {
-                highPriorityTodos.insert(item, at: index)
-            } else {
                 highPriorityTodos.append(item)
+            } else {
+                highPriorityTodos.insert(item, at: index)
             }
         case .medium:
             if index < 0 {
-                mediumPriorityTodos.insert(item, at: index)
-            } else {
                 mediumPriorityTodos.append(item)
+            } else {
+                mediumPriorityTodos.insert(item, at: index)
             }
         case .low:
             if index < 0 {
-                lowPriorityTodos.insert(item, at: index)
-            } else {
                 lowPriorityTodos.append(item)
+            } else {
+                lowPriorityTodos.insert(item, at: index)
             }
         }
     }
@@ -80,15 +80,6 @@ class TodoList {
             mediumPriorityTodos.remove(at: index)
         case .low:
             lowPriorityTodos.remove(at: index)
-        }
-    }
-    
-    // TODO: delete items
-    func remove(items: [TodoItem]) {
-        for item in items {
-            if let index = todos.index(of: item) {
-                todos.remove(at: index)
-            }
         }
     }
     
